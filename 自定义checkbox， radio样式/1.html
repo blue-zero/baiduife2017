@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+
+<style type="text/css">
+input{
+    display: none;
+}
+
+label{
+    display: block;
+    width: 20px ;
+    height: 20px;
+}
+
+.one{
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-image: url(http://p1.bqimg.com/567571/99322cf8c3283e42.png);
+    background-position:-23px -10px ;
+    background-repeat: no-repeat;
+}
+
+.two{
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-image: url(http://p1.bqimg.com/567571/99322cf8c3283e42.png);
+    background-position:-23px -32px ;
+    background-repeat: no-repeat;
+}
+
+.thr:before{
+   
+    content: url(images/checkbox_01.jpg);
+}
+.thr1:before{
+  
+    content: url(images/checkbox_02.jpg);
+}
+
+.fou:before{
+   
+    content: url(images/checkbox_03.jpg);
+}
+
+.fou1:before{
+    
+    content: url(images/checkbox_04.jpg);
+}
+
+
+</style>
+  
+
+</head>
+<body>
+
+
+<h1>demo1:</h1>
+<label class="one" for="one"></label>
+<input type="radio" id="one" name="One" />
+
+<label class="two" for="two"></label>
+<input type="checkbox" id="two" name="Two" />
+
+<h1>demo2:</h1>
+<label id="thr" class="thr"><input type="radio"  name="Thr" /></label>
+
+
+<label id="fou" class="fou"><input type="checkbox"  name="Fou" /></label>
+
+
+
+
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+
+$(function(){
+    
+    $("#one").click(function() {
+        $(".one").css({"background-position":"-56px -10px",});
+
+    });
+
+    $("#two").click(function() {
+        $(".two").css("background-position",function(){
+                var che = $("input[type='checkbox']").is(':checked');
+                if(che){
+                    return "-56px -32px";
+                }else{
+                    return "-23px -32px";
+                }
+
+            
+        })
+    });
+
+    $("#thr").click(function() {
+
+        $(this).removeClass("thr").addClass("thr1");
+    
+    });
+
+    $("#fou").click(function() {
+
+        var che = $("input[type='checkbox']").is(':checked');
+                if(che){
+
+                     $(this).removeClass("fou").addClass("fou1");
+                }else{
+                     $(this).removeClass("fou1").addClass("fou");
+                }
+
+        
+    
+    });
+
+})
+</script>
+</body>
+</html>
