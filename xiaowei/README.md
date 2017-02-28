@@ -4,3 +4,10 @@
 <h1>task8 :响应式网格（栅格化）布局</h1>
 <a href="https://blue-zero.github.io/baiduife2017/xiaowei/task8/index.html">demo展示</a>
 <a href="https://github.com/blue-zero/baiduife2017/blob/master/xiaowei/task8/index.html">demo代码</a>
+
+
+<h1>task10：Flexbox 布局练习</h1>
+<a href="https://blue-zero.github.io/baiduife2017/xiaowei/task10/index.html">demo展示</a>
+<a href="https://github.com/blue-zero/baiduife2017/blob/master/xiaowei/task10/index.html">demo代码</a>
+
+
