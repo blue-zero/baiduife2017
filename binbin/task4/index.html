@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>任务四：基础JavaScript练习（一）</title>
+
+<style type="text/css">
+	*{
+		list-style: none;
+	}
+
+	li{
+		display: inline-block;
+		width: 100px;
+		height: 100px;
+		color: #fff;
+		text-align: center;
+		line-height: 100px;
+		background-color: red;
+		overflow: hidden;
+		margin: 0 10px;
+
+		cursor: pointer;
+	}
+</style>
+</head>
+<body>
+
+<input id="num" type="text" />
+<button id="lin">左侧入</button>
+<button id="rin">右侧入</button>
+<button id="lout">左侧出</button>
+<button id="rout">右侧出</button>
+
+<ul id="content"><!-- <li>1</li><li>2</li> --></ul>
+
+
+<script type="text/javascript">
+	/*这里采用事件监听，event方法*/
+
+	var num = document.getElementById('num');
+	var lin = document.getElementById('lin');
+	var lout = document.getElementById('lout');
+	var rin = document.getElementById('rin');
+	var rout = document.getElementById('rout');
+	var conrent = document.getElementById('content');
+
+	 num.addEventListener("blur",function(){
+	 	if(!num.value.match(/^[0-9]*$/)){
+	 		alert("请输入数字");
+			num.value="";
+	 	}
+	 },false);
+	 /*这里在节点前插入用insertBefore,需要插入的对象必须为节点*/
+	lin.addEventListener("click",function(){
+		if(num.value == ""){
+			return;
+		}
+		var node = document.createElement("li");
+		node.append(num.value);
+		content.insertBefore(node,content.childNodes[0]);
+
+	},false)
+
+	rin.addEventListener("click",function(){
+		if(num.value == ""){
+			return;
+		}
+		var node = document.createElement("li");
+		node.append(num.value);
+		content.append(node);
+
+	},false)
+
+	lout.addEventListener("click",function(){
+		if(content.childNodes.length == 0){
+			alert("还没有生成元素块");
+			return false;
+		}
+		alert("确认删除左侧节点"+ content.lastChild.innerHTML);
+		content.removeChild(content.firstChild);
+
+	},false)
+
+	rout.addEventListener("click",function(){
+		if(content.childNodes.length == 0){
+			alert("还没有生成元素块");
+			return false;
+		}
+		alert("确认删除右侧节点"+ content.lastChild.innerHTML);
+		content.removeChild(content.lastChild);
+
+	},false)
+
+	/*最后给每个li加上点击事件*/
+	content.addEventListener("click",function(a){
+		 content.removeChild(a.target);
+
+	},false)
+
+
+</script>
+</body>
+</html>
