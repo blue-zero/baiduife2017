@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>任务五：基础JavaScript练习（二）</title>
+
+<style type="text/css">
+	
+	.content{
+		position: absolute;
+		top: 50%;
+
+	}
+
+	.wrap{
+		display: flex;
+		align-items:flex-end;
+
+		position: absolute;
+		top:50%;
+		transform:translateY(-50%);
+	}
+
+	.wrap div{
+		width: 15px;
+		background-color: red;
+		margin: 0 2px;
+	}
+
+	.wrap div span{
+		font-size: 10px;
+	    position: absolute;
+	    bottom: 0px;
+	    margin-bottom: -20px;
+
+	}
+	button{
+		font-size: 14px;
+		color: #fff;
+		border: 1px solid transparent;
+		background-color: #5bc0de;
+		border-radius: 10px;
+		padding: 6px 12px;
+		cursor: pointer;
+	}
+	input{
+		display: inline-block;
+	    width: 50px;
+	    height: 34px;
+	    padding: 6px 12px;
+	    font-size: 14px;
+	    color: #555;
+	    background-color: #fff;
+	    background-image: none;
+	    border: 1px solid #ccc;
+	    border-radius: 4px;
+	}
+	button:hover{
+		border: 1px #eee solid;
+	}
+</style>
+</head>
+<body>
+	
+	<input id="num" type="text" />
+	<button id="btn">提交</button>
+
+	<label for="speed">速度：</label>
+	<input id="speed" type="text" name="speed" />
+
+	<button id="sort-btn">排序</button>
+	<button id="random-btn">自动生成</button>
+	<button id="clear-btn">清除</button>
+	<div class="content">
+		<div id="items" class="wrap">
+			
+		</div>
+	</div>
+
+
+	<script type="text/javascript">
+
+
+	function $ (id) {
+		return document.getElementById(id);
+	}
+	
+
+	/*检查是否是数字*/
+	function check(){
+	 	if(!this.value.match(/^[0-9]*$/)){
+	 		alert("请输入数字");
+			this.value="";
+	 	}
+	 }
+
+	/*生成条状图*/
+	function tabnum(){
+
+		var lis_num = $('items').getElementsByTagName("div").length;
+		var lis = $('items').getElementsByTagName("div");
+
+		var H_num = $('num').value ;
+		
+		// console.log(lis_num)
+		/*判断队列数*/
+		if(lis_num>=60){
+			alert("您添加的元素队列超过6个");
+			$('num').value = "";
+			return false;
+		}
+
+		/*判断输入的数*/
+		if(H_num<10 || H_num>100){
+			alert("请输入10-100以内的数");
+			$('num').value = "";
+			return false;
+		}
+
+		/*设置一个比例，这里为5*/
+		H_num1 = H_num;
+		H_num *= 5;
+		// console.log(H_num) 
+		var node = document.createElement('div');
+		var span = document.createElement('span');
+		span.append(H_num1);
+		node.appendChild(span);
+		node.setAttribute("style","height:"+H_num+"px");
+		// console.log(node);
+		$('items').appendChild(node);
+
+		$('num').value ="" ;
+	}
+
+	/*随机生成60个数*/
+	function random(){
+		var lis_num = $('items').getElementsByTagName("div").length;
+		var k ,i;
+		if(lis_num!=0 || lis_num<60 ){
+			i = lis_num;
+		}else if(lis_num == 60){
+			alert("您添加的元素队列超过6个");
+			$('num').value = "";
+			return false;
+		}else{
+			i = 0;
+		}
+
+		for (; i < 60; i++) {
+			/*随机一个10-100的数*/
+			k = parseInt(Math.random()*90)+10
+			$('num').value = k;
+			tabnum();
+		};
+
+	}
+	/*清除*/
+	function clear(){
+		var lis_num = $('items').getElementsByTagName("div").length;
+		console.log(lis_num);
+			for(var a = 0;a<=lis_num;a++){
+				$('items').removeChild($('items').firstChild);
+			}
+	}
+	/*
+	冒泡法
+
+
+
+	*/
+	
+
+	function sort(){
+		var lis_num = $('items').getElementsByTagName("div").length;
+		var lis = $('items').getElementsByTagName("div");
+
+		var speed = $('speed').value;
+
+		if(speed==""){
+			speed = 50;
+		}
+		
+		// for (var i = 0; i < lis_num; i++) {
+		// 	for (var j = 0; j < lis_num-i-1; j++) {
+		// 		console.log("我是J"+j)
+		// 		if(lis[j].innerText>lis[j+1].innerText){
+					
+		// 			$('items').insertBefore(lis[j+1], lis[j]);
+					
+		// 		}
+		// 	};
+		// };
+
+		/*js没有sleep函数，所以只能拆开for循环了,遍历*/
+
+		var i=0;
+		var j=0;
+		function sorttime(){
+			
+
+			if(i<lis_num){
+				console.log()
+				/*执行节点对换*/
+				if(j<lis_num - i-1){
+					/*节点交换*/
+					if(lis[j].innerText>lis[j+1].innerText){
+						/*可视化*/
+						lis[j].style.backgroundColor="#ffe92b";
+						$('items').insertBefore(lis[j+1], lis[j]);
+
+					}else{
+						
+							lis[j].style.backgroundColor="red";
+							lis[j+1].style.backgroundColor="#ffe92b";
+							console.log(i)
+							console.log(j)
+							
+						
+					}
+
+					j++;
+					setTimeout(sorttime,speed);
+
+				}else{
+					i++;
+					j = 0;
+					setTimeout(sorttime,speed);
+				}
+
+
+			}
+			if(i==lis_num-1)
+				{
+					lis[j].style.backgroundColor="#ffe92b";
+				}
+
+		}
+
+		sorttime();
+
+	}
+
+
+
+
+
+
+    /*执行部分*/
+	$('num').addEventListener("blur",check,false);
+	$('speed').addEventListener("blur",check,false);
+	$('btn').addEventListener('click',tabnum,false);
+	$('random-btn').addEventListener('click',random,false);
+	$('sort-btn').addEventListener('click',sort,false);
+	$('clear-btn').addEventListener('click',clear,false);
+
+	</script>
+
+</body>
+</html>
