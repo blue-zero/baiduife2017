@@ -18,6 +18,7 @@
 
 		position: absolute;
 		top:50%;
+		
 		transform:translateY(-50%);
 	}
 
@@ -58,12 +59,17 @@
 	button:hover{
 		border: 1px #eee solid;
 	}
+
 </style>
 </head>
 <body>
 	
 	<input id="num" type="text" />
 	<button id="btn">提交</button>
+	<button id="lin">左侧入</button>
+	<button id="rin">右侧入</button>
+	<button id="lout">左侧出</button>
+	<button id="rout">右侧出</button>
 
 	<label for="speed">速度：</label>
 	<input id="speed" type="text" name="speed" />
@@ -239,8 +245,88 @@
 		sorttime();
 
 	}
+task4();
 
+	function task4(){
 
+	var num = document.getElementById('num');
+	var lin = document.getElementById('lin');
+	var lout = document.getElementById('lout');
+	var rin = document.getElementById('rin');
+	var rout = document.getElementById('rout');
+	
+
+	 /*这里在节点前插入用insertBefore,需要插入的对象必须为节点*/
+	lin.addEventListener("click",function(){
+		if(num.value == ""){
+			return;
+		}
+		
+		var lis_num = $('items').getElementsByTagName("div").length;
+		var lis = $('items').getElementsByTagName("div");
+
+		var H_num = $('num').value ;
+		
+		// console.log(lis_num)
+		/*判断队列数*/
+		if(lis_num>=60){
+			alert("您添加的元素队列超过6个");
+			$('num').value = "";
+			return false;
+		}
+
+		/*判断输入的数*/
+		if(H_num<10 || H_num>100){
+			alert("请输入10-100以内的数");
+			$('num').value = "";
+			return false;
+		}
+
+		/*设置一个比例，这里为5*/
+		H_num1 = H_num;
+		H_num *= 5;
+		// console.log(H_num) 
+		var node = document.createElement('div');
+		var span = document.createElement('span');
+		span.append(H_num1);
+		node.appendChild(span);
+		node.setAttribute("style","height:"+H_num+"px");
+		// console.log(node);
+		
+		$('items').insertBefore(node,$('items').childNodes[0]);
+		$('num').value ="" ;
+
+	},false)
+
+	rin.addEventListener("click",tabnum,false);
+
+	lout.addEventListener("click",function(){
+		if($('items').childNodes.length == 0){
+			alert("还没有生成元素块");
+			return false;
+		}
+		alert("确认删除左侧节点"+ $('items').lastChild.innerHTML);
+		$('items').removeChild($('items').firstChild);
+
+	},false)
+
+	rout.addEventListener("click",function(){
+		if($('items').childNodes.length == 0){
+			alert("还没有生成元素块");
+			return false;
+		}
+		alert("确认删除右侧节点"+ $('items').lastChild.innerHTML);
+		$('items').removeChild($('items').lastChild);
+
+	},false)
+
+	/*最后给每个li加上点击事件*/
+	$('items').addEventListener("click",function(a){
+		 this.removeChild(a.target);
+
+	},false)
+
+	}
 
 
 
