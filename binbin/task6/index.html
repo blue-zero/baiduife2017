@@ -84,7 +84,7 @@
 		
 </div>
 <div class="mid">
-	<ul id="content"><!-- <li>123</li><li>246</li><li>a</li> --></ul>
+	<ul id="content"></ul>
 </div>
 
 
@@ -176,7 +176,7 @@
 			alert("还没有生成元素块");
 			return false;
 		}
-		alert("确认删除左侧节点“"+ content.lastChild.innerHTML +"”");
+		alert("确认删除左侧节点“"+ content.firstChild.innerHTML +"”");
 		content.removeChild(content.firstChild);
 
 	},false)
