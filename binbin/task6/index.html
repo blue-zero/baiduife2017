@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>任务四：基础JavaScript练习（一）</title>
+
+<style type="text/css">
+	*{
+		list-style: none;
+	}
+	body{
+		margin: 0 auto;
+	}
+	li{
+		display: inline-block;
+		width: 100px;
+		height: 100px;
+		color: #fff;
+		text-align: center;
+		line-height: 100px;
+		background-color: red;
+		overflow: hidden;
+		margin: 0 10px;
+
+		cursor: pointer;
+	}
+
+	button{
+		font-size: 14px;
+		color: #fff;
+		border: 1px solid transparent;
+		background-color: #5bc0de;
+		border-radius: 10px;
+		padding: 6px 12px;
+		margin: 0 5px;
+		cursor: pointer;
+	}
+	input{
+		display: inline-block;
+	    width: 50px;
+	    height: 34px;
+	    padding: 6px 12px;
+	    font-size: 14px;
+	    color: #555;
+	    background-color: #fff;
+	    background-image: none;
+	    border: 1px solid #ccc;
+	    border-radius: 4px;
+	}
+	button:hover{
+		border: 1px #eee solid;
+	}
+
+	textarea{
+		resize:none;
+		width: 500px;	
+		height: 100px;
+	}
+	.mid{
+		display: table;
+		margin: 0 auto;
+	}
+	.button{
+		display: table;
+		margin: 0 auto;
+	}
+</style>
+</head>
+<body>
+
+<div class="mid">
+		<textarea id="text" placeholder="允许一次批量输入多个内容，格式可以为数字、中文、英文等，可以通过用回车，逗号（全角半角均可），顿号，空格（全角半角、Tab等均可）等符号作为不同内容的间隔" ></textarea>
+		<div class="button">
+			<button id="lin">左侧入</button>
+			<button id="rin">右侧入</button>
+			<button id="lout">左侧出</button>
+			<button id="rout">右侧出</button>
+			<button id="reset-btn">重置</button>
+		</div>
+
+	<input type="text" id="search-txt" />
+	<button id="search-btn">查询</button>
+	<button id="clear-btn">清除</button>
+		
+</div>
+<div class="mid">
+	<ul id="content"><!-- <li>123</li><li>246</li><li>a</li> --></ul>
+</div>
+
+
+
+<script type="text/javascript">
+	/*这里采用事件监听，event方法*/
+
+	var text = document.getElementById('text');
+	var lin = document.getElementById('lin');
+	var lout = document.getElementById('lout');
+	var rin = document.getElementById('rin');
+	var rout = document.getElementById('rout');
+	var conrent = document.getElementById('content');
+	var search_txt = document.getElementById('search-txt');
+	var search_btn = document.getElementById('search-btn');
+	var clear_btn = document.getElementById('clear-btn');
+	var reset_btn = document.getElementById('reset-btn');
+
+	 /*获取text中内容，并且进行过滤,考虑到如果匹配符号，代码量太大
+	 所以就匹配
+	 数字：\d
+	 中文，\u4e00-\u9fa5
+	 英文,[a-zA-Z]
+	 匹配非数字，中文，英文的字符，并大于1次
+	 [^\da-zA-Z\u4e00-\u9fa5]+
+	 */
+
+	 function regex(data){
+
+	 	/*data为text中输入的内容*/
+	 	
+
+	 	arr = data.replace(/[^\da-zA-Z\u4e00-\u9fa5]+/g, " ").split(" ");
+
+	 	if(arr[arr.length-1] == ""){
+	 		
+	 		/*因为采用分割，所以如果最后一位带上符号，则数组多一位，需要删除这一位数*/
+	 		arr.splice(arr.length-1,1);
+	 		
+	 	}
+
+	 	if(arr == ""){
+	 		return false;
+	 	}else{
+	 		return arr;
+	 	}
+	 	
+	 }
+
+
+
+
+	 /*这里在节点前插入用insertBefore,需要插入的对象必须为节点*/
+	lin.addEventListener("click",function(){
+		if(text.value == ""){
+			return;
+		}
+		regex(text.value);
+
+		for(var i =0;i<arr.length;i++){
+			var node = document.createElement("li");
+			node.append(arr[i]);
+			content.insertBefore(node,content.childNodes[0]);
+		}
+		
+
+	},false)
+
+	rin.addEventListener("click",function(){
+		if(text.value == ""){
+			return;
+		}
+
+		regex(text.value);
+
+		for(var i =0;i<arr.length;i++){
+			var node = document.createElement("li");
+			node.append(arr[i]);
+			content.append(node);
+		}
+	},false)
+
+
+	lout.addEventListener("click",function(){
+		if(content.childNodes.length == 0){
+			alert("还没有生成元素块");
+			return false;
+		}
+		alert("确认删除左侧节点“"+ content.lastChild.innerHTML +"”");
+		content.removeChild(content.firstChild);
+
+	},false)
+
+	rout.addEventListener("click",function(){
+		if(content.childNodes.length == 0){
+			alert("还没有生成元素块");
+			return false;
+		}
+		alert("确认删除右侧节点“"+ content.lastChild.innerHTML +"”");
+		content.removeChild(content.lastChild);
+
+	},false)
+
+	/*最后给每个li加上点击事件*/
+	content.addEventListener("click",function(a){
+		 content.removeChild(a.target);
+
+	},false)
+
+
+	/*查询部分*/
+	
+	search_btn.addEventListener("click",search,false)
+
+	/*
+	*模糊查询这里用了string.indexOf方法
+	*如果没有符合的字符串则返回-1
+	*
+	**/
+
+	function search(){
+		var lis = content.getElementsByTagName("li");
+		var lis_num = content.getElementsByTagName("li").length;
+		console.log(lis[0].innerText)
+		console.log(lis_num)
+		var keword = search_txt.value;
+		var a;
+		for(var i=0;i<lis_num;i++){
+			lis[i].style.backgroundColor = "#ff0000";
+		    //如果字符串中不包含目标字符会返回-1
+		    if(lis[i].innerText.indexOf(keword)>=0){
+		       lis[i].style.backgroundColor = "#fdff0d";
+		       a = 1;
+		    }
+		}
+		if(a!=1){
+			alert("没有查找的内容");
+		}
+	}
+
+	/*清空重置*/
+
+	function clear(){
+		var lis_num = content.getElementsByTagName("li").length;
+			
+			for(var a = 0;a<=lis_num;a++){
+				content.removeChild(content.firstChild);
+			}
+	}
+	
+	function reset(){
+		text.value ="";
+	}
+
+	clear_btn.addEventListener('click',clear,false)
+	reset_btn.addEventListener('click',reset,false)
+</script>
+</body>
+</html>
