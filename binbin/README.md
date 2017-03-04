@@ -21,3 +21,7 @@
 <h1>task5: 基础JavaScript练习（二）</h1>
 <a href="https://blue-zero.github.io/baiduife2017/binbin/task5/index.html">demo预览</a>
 <a href="https://github.com/blue-zero/baiduife2017/blob/master/binbin/task5/index.html">代码预览</a>
+
+<h1>task6: 基础JavaScript练习（三）</h1>
+<a href="https://blue-zero.github.io/baiduife2017/binbin/task6/index.html">demo预览</a>
+<a href="https://github.com/blue-zero/baiduife2017/blob/master/binbin/task6/index.html">代码预览</a>
